@@ -1,0 +1,6 @@
+- [ ] Update navigation: Change "Juices" link to "Menu" and remove the separate "cocktails" link
+- [ ] Combine juices and cocktails sections into one new section with id="menu"
+- [ ] Create subsections within menu for Juices, Cocktails, and new Food menu
+- [ ] Add 4-6 food items in the Food subsection with artisanal theme
+- [ ] Update internal links (e.g., in footer) to point to #menu instead of #juices or #cocktails
+- [ ] Ensure responsive design and styling consistency

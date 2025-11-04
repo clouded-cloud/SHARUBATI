@@ -25,24 +25,11 @@
         }
         
         body {
-            background-color: var(--paper);
+            background-color: white;
             color: var(--black);
             line-height: 1.6;
             position: relative;
             overflow-x: hidden;
-        }
-        
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.4;
-            z-index: -1;
         }
         
         .container {
@@ -156,7 +143,23 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            background: var(--paper);
+            background: url('https://images.unsplash.com/photo-1622597467836-f3285f2131b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
         }
         
         .hero h1 {
@@ -166,8 +169,9 @@
             font-family: 'Playfair Display', serif;
             position: relative;
             display: inline-block;
+            color: var(--white);
         }
-        
+
         .hero h1::after {
             content: "";
             position: absolute;
@@ -175,14 +179,19 @@
             left: 10%;
             width: 80%;
             height: 2px;
-            background: linear-gradient(to right, transparent, var(--black), transparent);
+            background: linear-gradient(to right, transparent, var(--white), transparent);
         }
-        
+
+        .hero h2 {
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
         .hero p {
             font-size: 20px;
             max-width: 700px;
             margin: 0 auto 40px;
-            color: var(--gray-4);
+            color: var(--white);
             font-style: italic;
         }
         
@@ -352,7 +361,25 @@
             background-color: var(--black);
             color: var(--white);
         }
-        
+
+        /* Subsection Titles */
+        .subsection-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            position: relative;
+        }
+
+        .subsection-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 2px;
+            background-color: var(--black);
+            margin: 10px auto 0;
+        }
+
         /* About Section */
         .about {
             padding: 80px 0;
@@ -593,7 +620,7 @@
                 <nav>
                     <ul>
                         <li><a href="#">Home</a></li>
-                        <li><a href="#juices">Juices</a></li>
+                        <li><a href="#menu">Menu</a></li>
                         <li><a href="#merchandise">Goods</a></li>
                         <li><a href="#about">Story</a></li>
                         <li><a href="#contact">Contact</a></li>
@@ -610,67 +637,175 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1 class="hand-drawn">SHARUBATI
-            </h1>
-            <p>Sharubaree!!!!!!We handcraft each blend with timeless flavors and artistic expression, from fresh juices to slap-worthy sharuBARti cocktails. Your taste buds won't know what hit them, but every bottle tells the story.</p>
-            <a href="#juices" class="btn">Explore Collection</a>
+            <h1 class="hand-drawn">SHARUBATI</h1>
+            <h2>Slapped by flavours</h2>
+            <p>Sharubaree!!!!!! We handcraft each blend with timeless flavors and artistic expression, from fresh juices to slap-worthy sharuBARti cocktails. Your taste buds won't know what hit them, but every bottle tells the story.</p>
+            <a href="#menu" class="btn">Explore Collection</a>
         </div>
     </section>
 
-    <!-- Juices Section -->
-    <section class="products" id="juices">
+    <!-- Menu Section -->
+    <section class="products" id="menu">
         <div class="container">
-            <h2 class="section-title">Our Juices</h2>
-            <div class="product-grid">
-                <!-- Product 1 -->
-                <div class="product-card sketch-border">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Sunrise">
+            <h2 class="section-title">Our Menu</h2>
+
+            <!-- Juices Subsection -->
+            <div class="menu-subsection">
+                <h3 class="subsection-title">Fresh Juices</h3>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Sunrise">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Fruit Blend</div>
+                            <h3 class="product-name">Orchard Essence</h3>
+                            <div class="product-price">$8.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <div class="product-category">Fruit Blend</div>
-                        <h3 class="product-name">Orchard Essence</h3>
-                        <div class="product-price">$8.99</div>
-                        <button class="add-to-cart">Add to Cart</button>
+
+                    <!-- Product 2 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Berry Blast">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Berry Blend</div>
+                            <h3 class="product-name">Wild Berries</h3>
+                            <div class="product-price">$7.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Citrus Zing">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Citrus Blend</div>
+                            <h3 class="product-name">Citrus Grove</h3>
+                            <div class="product-price">$8.49</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card sketch-border">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Green Detox">
+            </div>
+
+            <!-- Cocktails Subsection -->
+            <div class="menu-subsection">
+                <h3 class="subsection-title">Signature Cocktails</h3>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Spicy Ginger Mule">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Spirited Mix</div>
+                            <h3 class="product-name">Spicy Ginger Mule</h3>
+                            <div class="product-price">$12.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <div class="product-category">Vegetable Blend</div>
-                        <h3 class="product-name">Botanical Roots</h3>
-                        <div class="product-price">$9.99</div>
-                        <button class="add-to-cart">Add to Cart</button>
+
+                    <!-- Product 2 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Paradise">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Signature Cocktail</div>
+                            <h3 class="product-name">Tropical Paradise</h3>
+                            <div class="product-price">$11.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1546171753-97d7676e4602?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Berry Bliss Mocktail">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Mocktail</div>
+                            <h3 class="product-name">Berry Bliss Mocktail</h3>
+                            <div class="product-price">$9.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Midnight Martini">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Classic Cocktail</div>
+                            <h3 class="product-name">Midnight Martini</h3>
+                            <div class="product-price">$13.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card sketch-border">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Berry Blast">
+            </div>
+
+            <!-- Pastries Subsection -->
+            <div class="menu-subsection">
+                <h3 class="subsection-title">Artisan Pastries</h3>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Chocolate Chip Cookies">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Classic Cookies</div>
+                            <h3 class="product-name">Chocolate Chip Delight</h3>
+                            <div class="product-price">$4.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <div class="product-category">Berry Blend</div>
-                        <h3 class="product-name">Wild Berries</h3>
-                        <div class="product-price">$7.99</div>
-                        <button class="add-to-cart">Add to Cart</button>
+
+                    <!-- Product 2 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Oatmeal Raisin Cookies">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Healthy Cookies</div>
+                            <h3 class="product-name">Oatmeal Raisin Bliss</h3>
+                            <div class="product-price">$5.49</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card sketch-border">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Citrus Zing">
+
+                    <!-- Product 3 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Macadamia Nut Cookies">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Premium Cookies</div>
+                            <h3 class="product-name">Macadamia Crunch</h3>
+                            <div class="product-price">$6.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <div class="product-category">Citrus Blend</div>
-                        <h3 class="product-name">Citrus Grove</h3>
-                        <div class="product-price">$8.49</div>
-                        <button class="add-to-cart">Add to Cart</button>
+
+                    <!-- Product 4 -->
+                    <div class="product-card sketch-border">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Double Chocolate Cookies">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">Chocolate Cookies</div>
+                            <h3 class="product-name">Double Chocolate Heaven</h3>
+                            <div class="product-price">$5.99</div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -743,12 +878,12 @@
             <div class="about-content">
                 <div class="about-text">
                     <h2>Our Story</h2>
-                    <p>Welcome to Sharubati, where every sip tells a story. Our name is our heritage, inspired by the Arabic word for a delicious, fruity beverage. But our soul is pure Kenyan energy.
+                    <p>Welcome to Sharubati, where every sip tells a story. Our name is our heritage, inspired by the Arabic word for a delicious, fruity beverage. But our soul is pure Kenyan energy.</p>
 
-<p>We took that foundation and gave it a local twist, transforming the last syllable into "bare" – the Swahili slang for "slap." And that’s exactly what our flavors do. They hit you with a wave of taste so intense, so unexpectedly delicious, it’s a bare of pure goodness.</p>
+                    <p>We took that foundation and gave it a local twist, transforming the last syllable into "bare" – the Swahili slang for "slap." And that’s exactly what our flavors do. They hit you with a wave of taste so intense, so unexpectedly delicious, it's a bare of pure goodness.</p>
 
-<p>From our fresh, nutrient-packed juices to the crafted cocktails and mocktails at the sharuBARti section, we’re here to revolutionize your drink experience. So come on in, and let your taste buds get slapped by flavor</p>
-                    
+                    <p>From our fresh, nutrient-packed juices to the crafted cocktails and mocktails at the sharuBARti section, we're here to revolutionize your drink experience. So come on in, and let your taste buds get slapped by flavor.</p>
+
                     <a href="#" class="btn">Our Process</a>
                 </div>
                 <div class="about-image sketch-border">
@@ -801,7 +936,7 @@
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 INK & PRESS. All rights reserved.
+                &copy; 2023 SHARUBATI. All rights reserved.
             </div>
         </div>
     </footer>
