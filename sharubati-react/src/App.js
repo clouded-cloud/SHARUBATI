@@ -14,9 +14,16 @@ function App() {
     setCartCount(prev => prev + 1);
   };
 
+  const handlePlaceOrder = (order) => {
+    // Simple handling: log the order and reset the cart
+    console.log('Order placed:', order);
+    alert(`Order placed for ${order.customerName} (Phone: ${order.customerPhone}).\nType: ${order.orderType}. Items: ${order.itemsCount}`);
+    setCartCount(0);
+  };
+
   return (
     <div className="App">
-      <Header cartCount={cartCount} />
+      <Header cartCount={cartCount} onPlaceOrder={handlePlaceOrder} />
       <Story />
       <Menu onAddToCart={handleAddToCart} />
       <Merchandise onAddToCart={handleAddToCart} />
