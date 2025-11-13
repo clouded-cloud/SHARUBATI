@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧃</text></svg>" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHARUBATI | Artisanal Juices & Goods</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
     <style>
         /* Base Styles & Variables */
         :root {
@@ -122,7 +123,7 @@
             position: relative;
             cursor: pointer;
         }
-        
+
         .cart-count {
             position: absolute;
             top: -8px;
@@ -137,14 +138,178 @@
             align-items: center;
             font-size: 12px;
         }
-        
+
+        .checkout-btn {
+            background-color: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--gray-4);
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-modal-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-4);
+        }
+
+        .cart-modal-close:hover {
+            color: var(--black);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-2);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            color: var(--gray-4);
+            font-size: 14px;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: var(--gray-1);
+            border: none;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: var(--gray-2);
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-2);
+            text-align: right;
+        }
+
+        .checkout-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--gray-2);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .checkout-submit {
+            background: var(--black);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .checkout-submit:hover {
+            background: var(--gray-4);
+        }
+
+        .checkout-submit:disabled {
+            background: var(--gray-3);
+            cursor: not-allowed;
+        }
+
         /* Hero Section */
         .hero {
             padding: 120px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            background: url('https://images.unsplash.com/photo-1622597467836-f3285f2131b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            background: url('https://images.unsplash.com/photo-1622597467836-f3285f2131b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80  ') center/cover no-repeat;
         }
 
         .hero::before {
@@ -622,7 +787,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg  '%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
             pointer-events: none;
         }
         
@@ -638,7 +803,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1 Q 10 0, 20 1 T 40 1 T 60 1 T 80 1 T 100 1' stroke='%23000' stroke-width='1' fill='none' /%3E%3C/svg%3E") repeat-x;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='2' xmlns='http://www.w3.org/2000/svg  '%3E%3Cpath d='M0 1 Q 10 0, 20 1 T 40 1 T 60 1 T 80 1 T 100 1' stroke='%23000' stroke-width='1' fill='none' /%3E%3C/svg%3E") repeat-x;
         }
         
         /* Responsive Design */
@@ -693,81 +858,154 @@
             }
         }
 
-        /* Our Story Section */
+    /* Our Story Section - Slideshow */
         .story {
             padding: 80px 0;
             background-color: var(--gray-1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            height: 80vh;
+            max-height: 800px;
+            overflow: hidden;
+            border: 10px solid var(--white);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-color: var(--white);
+        }
+
+        .slide {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .slide-category {
+            color: var(--gray-3);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .slide-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .slide-text {
+            font-size: 18px;
+            color: var(--gray-4);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-arrow.left {
+            left: 20px;
+        }
+
+        .nav-arrow.right {
+            right: 20px;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
         }
 
         .story-grid {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
-            max-width: 400px;
-        }
-
-        .story-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            border: 1px solid var(--gray-2);
-            cursor: pointer;
-        }
-
-        .story-card.video-card {
-            cursor: pointer;
+            margin-top: 40px;
         }
 
         .story-image {
-            width: 100%;
-            height: 300px;
-            background-color: var(--gray-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 250px;
             overflow: hidden;
-            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .story-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
+            transition: transform 0.3s;
         }
 
-        .story-image video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
-
-        .story-content {
-            padding: 15px;
-        }
-
-        .story-name {
-            font-size: 18px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .story-content p {
-            font-size: 14px;
-            color: var(--gray-4);
-            line-height: 1.5;
-            margin: 0;
+        .story-image:hover img {
+            transform: scale(1.05);
         }
 
         /* Modal Styles */
@@ -846,7 +1084,7 @@
                 <a href="#" class="logo">SHARUBATI</a>
                 <nav>
                     <ul>
-                        <li><a href="#drinks">Drinks</a></li>
+                        <li><a href="#menu">Menu</a></li>
                         <li><a href="#merchandise">Goods</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#story">Our Story</a></li>
@@ -861,22 +1099,59 @@
         </div>
     </header>
 
+    
 
-        <!-- Drinks Section -->
-            <div id="drinks">
-                <!-- Juices Subsection -->
+    <!-- Our Story Section -->
+    <section class="story" id="story">
+        <div class="slideshow-container">
+            <div class="slide active"><img src="vogue1.jpg" alt="Vogue 1"></div>
+            <div class="slide"><img src="vogue1.jpg" alt="Vogue 2"></div>
+            <div class="slide"><img src="vogue1.jpg" alt="Vogue 3"></div>
+            <div class="slide"><img src="red.jpg" alt="Vogue 4"></div>
+            <div class="slide"><img src="waa.jpg" alt="Vogue 5"></div>
+            <div class="slide"><img src="vogue1.jpg" alt="Vogue 1"></div>
+
+            <!-- Navigation Arrows -->
+            <button class="nav-arrow left" id="left-arrow">&#10094;</button>
+            <button class="nav-arrow right" id="right-arrow">&#10095;</button>
+
+            <!-- Slide Indicators -->
+            <div class="slide-indicators">
+                <div class="indicator active" data-slide="0"></div>
+                <div class="indicator" data-slide="1"></div>
+                <div class="indicator" data-slide="2"></div>
+                <div class="indicator" data-slide="3"></div>
+                <div class="indicator" data-slide="4"></div>
+                <div class="indicator" data-slide="5"></div>
+            </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="products" id="menu">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+            <!-- Menu Navigation -->
+            <div class="menu-nav">
+                <ul>
+                    <li><a href="#juices">Fresh Juices</a></li>
+                    <li><a href="#cocktails">Signature Cocktails</a></li>
+                    <li><a href="#pastries">Artisan Pastries</a></li>
+                </ul>
+            </div>
+
+            <!-- Juices Subsection -->
                 <div class="menu-subsection" id="juices">
                     <h3 class="subsection-title">Fresh Juices</h3>
                     <div class="product-grid">
                         <!-- Product 1 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Sunrise">
+                                <img src="diff colors.jpg" alt="Tropical Sunrise">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Fruit Blend</div>
                                 <h3 class="product-name">Orchard Essence</h3>
-                                <div class="product-price">$8.99</div>
+                                <div class="product-price">300 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -884,12 +1159,12 @@
                         <!-- Product 2 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Berry Blast">
+                                <img src="red.jpg" alt="Berry Blast">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Berry Blend</div>
                                 <h3 class="product-name">Wild Berries</h3>
-                                <div class="product-price">$7.99</div>
+                                <div class="product-price">280 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -897,12 +1172,12 @@
                         <!-- Product 3 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Citrus Zing">
+                                <img src="coke.jpg" alt="Citrus Zing">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Citrus Blend</div>
                                 <h3 class="product-name">Citrus Grove</h3>
-                                <div class="product-price">$8.49</div>
+                                <div class="product-price">290 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -910,25 +1185,105 @@
                         <!-- Product 4 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Green Detox">
+                                <img src="green.jpg" alt="Green Detox">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Green Blend</div>
                                 <h3 class="product-name">Green Detox</h3>
-                                <div class="product-price">$9.49</div>
+                                <div class="product-price">320 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
 
-                        <!-- Product 5 -->
+                        
+
+                        <!-- Product 6 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1553909489-cd47e9c3e8b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Mango">
+                                <img src="strong tea.jpg" alt="Pineapple Juice">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Tropical Blend</div>
-                                <h3 class="product-name">Tropical Mango</h3>
-                                <div class="product-price">$8.99</div>
+                                <h3 class="product-name">Pineapple Juice</h3>
+                                <div class="product-price">280 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 7 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="diff colors.jpg" alt="Tropical Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Tropical Blend</div>
+                                <h3 class="product-name">Tropical Juice</h3>
+                                <div class="product-price">290 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 8 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="mango.jpg" alt="Mango Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Tropical Blend</div>
+                                <h3 class="product-name">Mango Juice</h3>
+                                <div class="product-price">300 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 9 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="orange.jpg" alt="Passion Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Tropical Blend</div>
+                                <h3 class="product-name">Passion Juice</h3>
+                                <div class="product-price">320 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 10 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="red.jpg" alt="Watermelon Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Fruit Blend</div>
+                                <h3 class="product-name">Watermelon Juice</h3>
+                                <div class="product-price">270 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 11 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="tropical.jpg" alt="Beetroot Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Vegetable Blend</div>
+                                <h3 class="product-name">Beetroot Juice</h3>
+                                <div class="product-price">300 KSH</div>
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 12 -->
+                        <div class="product-card sketch-border">
+                            <div class="product-image">
+                                <img src="green.jpg" alt="Pinemint Juice">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">Herbal Blend</div>
+                                <h3 class="product-name">Pinemint Juice</h3>
+                                <div class="product-price">330 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -944,12 +1299,12 @@
                         <!-- Product 1 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Spicy Ginger Mule">
+                                <img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Spicy Ginger Mule">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Spirited Mix</div>
                                 <h3 class="product-name">Spicy Ginger Mule</h3>
-                                <div class="product-price">$12.99</div>
+                                <div class="product-price">350 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -957,12 +1312,12 @@
                         <!-- Product 2 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tropical Paradise">
+                                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Tropical Paradise">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Signature Cocktail</div>
                                 <h3 class="product-name">Tropical Paradise</h3>
-                                <div class="product-price">$11.99</div>
+                                <div class="product-price">340 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -970,12 +1325,12 @@
                         <!-- Product 3 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1546171753-97d7676e4602?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Berry Bliss Mocktail">
+                                <img src="https://images.unsplash.com/photo-1546171753-97d7676e4602?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Berry Bliss Mocktail">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Mocktail</div>
                                 <h3 class="product-name">Berry Bliss Mocktail</h3>
-                                <div class="product-price">$9.99</div>
+                                <div class="product-price">330 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -983,12 +1338,12 @@
                         <!-- Product 4 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Midnight Martini">
+                                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Midnight Martini">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Classic Cocktail</div>
                                 <h3 class="product-name">Midnight Martini</h3>
-                                <div class="product-price">$13.99</div>
+                                <div class="product-price">350 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -1005,12 +1360,12 @@
                         <!-- Product 1 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Chocolate Chip Cookies">
+                                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Chocolate Chip Delight">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Classic Cookies</div>
                                 <h3 class="product-name">Chocolate Chip Delight</h3>
-                                <div class="product-price">$4.99</div>
+                                <div class="product-price">250 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -1018,12 +1373,12 @@
                         <!-- Product 2 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Oatmeal Raisin Cookies">
+                                <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Oatmeal Raisin Bliss">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Healthy Cookies</div>
                                 <h3 class="product-name">Oatmeal Raisin Bliss</h3>
-                                <div class="product-price">$5.49</div>
+                                <div class="product-price">260 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -1031,12 +1386,12 @@
                         <!-- Product 3 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Macadamia Nut Cookies">
+                                <img src="https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Macadamia Crunch">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Premium Cookies</div>
                                 <h3 class="product-name">Macadamia Crunch</h3>
-                                <div class="product-price">$6.99</div>
+                                <div class="product-price">280 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -1044,12 +1399,12 @@
                         <!-- Product 4 -->
                         <div class="product-card sketch-border">
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Double Chocolate Cookies">
+                                <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Double Chocolate Heaven">
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Chocolate Cookies</div>
                                 <h3 class="product-name">Double Chocolate Heaven</h3>
-                                <div class="product-price">$5.99</div>
+                                <div class="product-price">270 KSH</div>
                                 <button class="add-to-cart">Add to Cart</button>
                             </div>
                         </div>
@@ -1067,12 +1422,12 @@
                 <!-- Product 1 -->
                 <div class="product-card sketch-border">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Premium T-Shirt">
+                        <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Premium T-Shirt">
                     </div>
                     <div class="product-info">
                         <div class="product-category">Apparel</div>
                         <h3 class="product-name">Artisan Tee</h3>
-                        <div class="product-price">$24.99</div>
+                        <div class="product-price">350 KSH</div>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
@@ -1080,12 +1435,12 @@
                 <!-- Product 2 -->
                 <div class="product-card sketch-border">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Insulated Bottle">
+                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Insulated Bottle">
                     </div>
                     <div class="product-info">
                         <div class="product-category">Accessories</div>
                         <h3 class="product-name">Glass Bottle</h3>
-                        <div class="product-price">$19.99</div>
+                        <div class="product-price">340 KSH</div>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
@@ -1093,12 +1448,12 @@
                 <!-- Product 3 -->
                 <div class="product-card sketch-border">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Juice Pack">
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Juice Pack">
                     </div>
                     <div class="product-info">
                         <div class="product-category">Gift Set</div>
                         <h3 class="product-name">Collector's Set</h3>
-                        <div class="product-price">$39.99</div>
+                        <div class="product-price">350 KSH</div>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
@@ -1106,12 +1461,12 @@
                 <!-- Product 4 -->
                 <div class="product-card sketch-border">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Logo Cap">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="Logo Cap">
                     </div>
                     <div class="product-info">
                         <div class="product-category">Apparel</div>
                         <h3 class="product-name">Canvas Cap</h3>
-                        <div class="product-price">$16.99</div>
+                        <div class="product-price">330 KSH</div>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>
                 </div>
@@ -1134,91 +1489,7 @@
                     <a href="#" class="btn">Our Process</a>
                 </div>
                 <div class="about-image sketch-border">
-                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="About Ink & Press">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Story Section -->
-    <section class="story" id="story">
-        <div class="container">
-            <h2 class="section-title">Our Story</h2>
-            <div class="story-grid">
-                <!-- Story Card 1 -->
-                <div class="story-card sketch-border">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sharubati Origins">
-                    </div>
-                    <div class="story-content">
-                        <div class="story-category">Origins</div>
-                        <h3 class="story-name">Arabic Roots, Kenyan Soul</h3>
-                        <p>Sharubati draws from the Arabic word "sharub" meaning "to drink," representing our heritage of flavorful beverages. But our heart beats with pure Kenyan energy, blending traditional wisdom with modern creativity.</p>
-                    </div>
-                </div>
-
-                <!-- Video Card 1 -->
-                <div class="story-card video-card sketch-border" data-modal="video1">
-                    <div class="story-image">
-                        <video poster="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" muted>
-                            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="story-content">
-                        <h3 class="story-name">Behind the Scenes: Juice Making</h3>
-                        <p>Watch our artisans craft the perfect blend. Click to read the full article about our sustainable sourcing practices.</p>
-                    </div>
-                </div>
-
-                <!-- Story Card 2 -->
-                <div class="story-card sketch-border">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="The Slap Concept">
-                    </div>
-                    <div class="story-content">
-                        <div class="story-category">The Slap</div>
-                        <h3 class="story-name">Flavor That Hits Hard</h3>
-                        <p>We transformed "sharub" into "sharubaree" by adding "bare" – Swahili slang for "slap." Our flavors don't whisper; they deliver an intense, unforgettable taste experience that leaves your taste buds buzzing.</p>
-                    </div>
-                </div>
-
-                <!-- Video Card 2 -->
-                <div class="story-card video-card sketch-border" data-modal="video2">
-                    <div class="story-image">
-                        <video poster="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" muted>
-                            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="story-content">
-                        <h3 class="story-name">Community Stories</h3>
-                        <p>Meet the farmers and families behind our ingredients. Click to explore their inspiring journeys.</p>
-                    </div>
-                </div>
-
-                <!-- Story Card 3 -->
-                <div class="story-card sketch-border">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Artisan Process">
-                    </div>
-                    <div class="story-content">
-                        <div class="story-category">Craftsmanship</div>
-                        <h3 class="story-name">Handcrafted with Love</h3>
-                        <p>Every blend is meticulously crafted by hand, combining the finest fresh fruits, herbs, and spirits. From our nutrient-packed juices to signature cocktails, each bottle tells a story of passion and precision.</p>
-                    </div>
-                </div>
-
-                <!-- Story Card 4 -->
-                <div class="story-card sketch-border">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Community Impact">
-                    </div>
-                    <div class="story-content">
-                        <div class="story-category">Community</div>
-                        <h3 class="story-name">Building Connections</h3>
-                        <p>Sharubati is more than drinks – it's about creating moments of joy and connection. We believe in sustainable practices, supporting local farmers, and bringing people together through the universal language of great flavor.</p>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60  " alt="About Ink & Press">
                 </div>
             </div>
         </div>
@@ -1267,7 +1538,9 @@
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 SHARUBATI. All rights reserved.
+                &copy; 2025
+                 SHARUBATI. All rights reserved. <br>
+                <a href="https://www.flaticon.com/free-icons/orange-juice  " title="orange juice icons">Orange juice icons created by nawicon - Flaticon</a>
             </div>
         </div>
     </footer>
@@ -1278,7 +1551,7 @@
             <span class="modal-close">&times;</span>
             <h2 class="modal-title">Behind the Scenes: Juice Making</h2>
             <video controls autoplay style="width: 100%; max-height: 400px;">
-                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4  " type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <p class="modal-text">Watch our artisans craft the perfect blend. Our sustainable sourcing practices ensure the freshest ingredients while supporting local communities. Learn more about our commitment to quality and environmental responsibility.</p>
@@ -1290,29 +1563,190 @@
             <span class="modal-close">&times;</span>
             <h2 class="modal-title">Community Stories</h2>
             <video controls autoplay style="width: 100%; max-height: 400px;">
-                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4" type="video/mp4">
+                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4  " type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <p class="modal-text">Meet the farmers and families behind our ingredients. Their dedication to traditional farming methods and passion for quality produce make Sharubati possible. Discover their inspiring journeys and how we're building a better future together.</p>
         </div>
     </div>
 
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-modal-content">
+            <span class="cart-modal-close" id="cart-modal-close">&times;</span>
+            <h2 style="margin-bottom: 20px; font-family: 'Playfair Display', serif;">Your Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-total" id="cart-total">
+                <strong>Total: 0 KSH</strong>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
     <script>
-        // Simple cart functionality
+        // Slideshow functionality (global scope for onclick)
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Slideshow event listeners
+        document.getElementById('left-arrow').addEventListener('click', (e) => {
+            e.preventDefault();
+            changeSlide(-1);
+        });
+        document.getElementById('right-arrow').addEventListener('click', (e) => {
+            e.preventDefault();
+            changeSlide(1);
+        });
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToSlide(index);
+            });
+        });
+
+        // Auto-play slideshow
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000); // Change slide every 5 seconds
+
+        // Cart functionality
+        let cart = [];
+        const cartCount = document.querySelector('.cart-count');
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartModal = document.getElementById('cart-modal');
+        const cartModalClose = document.getElementById('cart-modal-close');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        // Function to update cart count
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Function to update cart display
+        function updateCartDisplay() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align: center; color: var(--gray-3);">Your cart is empty</p>';
+                cartTotal.innerHTML = '<strong>Total: 0 KSH</strong>';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${item.price} KSH each</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="changeQuantity(${index}, -1)">-</button>
+                        <span style="margin: 0 10px;">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="changeQuantity(${index}, 1)">+</button>
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            cartTotal.innerHTML = `<strong>Total: ${total} KSH</strong>`;
+            checkoutBtn.disabled = false;
+        }
+
+        // Function to add item to cart
+        function addToCart(name, price, category) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    name: name,
+                    price: parseInt(price.replace(' KSH', '')),
+                    category: category,
+                    quantity: 1
+                });
+            }
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        // Function to change quantity
+        function changeQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        // Function to remove item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        // Function to show cart modal
+        function showCartModal() {
+            cartModal.style.display = 'flex';
+            updateCartDisplay();
+        }
+
+        // Function to hide cart modal
+        function hideCartModal() {
+            cartModal.style.display = 'none';
+        }
+
+        // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartCount = document.querySelector('.cart-count');
-            let count = 0;
 
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    count++;
-                    cartCount.textContent = count;
+                    const productCard = this.closest('.product-card');
+                    const name = productCard.querySelector('.product-name').textContent;
+                    const price = productCard.querySelector('.product-price').textContent;
+                    const category = productCard.querySelector('.product-category').textContent;
+
+                    addToCart(name, price, category);
 
                     // Add animation to cart icon
-                    cartCount.parentElement.style.transform = 'scale(1.2)';
+                    cartIcon.style.transform = 'scale(1.2)';
                     setTimeout(() => {
-                        cartCount.parentElement.style.transform = 'scale(1)';
+                        cartIcon.style.transform = 'scale(1)';
                     }, 300);
 
                     // Button feedback
@@ -1329,7 +1763,67 @@
                 });
             });
 
-            // Modal functionality
+            // Cart icon click to open modal
+            cartIcon.addEventListener('click', showCartModal);
+
+            // Close cart modal
+            cartModalClose.addEventListener('click', hideCartModal);
+
+            // Close modal when clicking outside
+            cartModal.addEventListener('click', function(e) {
+                if (e.target === cartModal) {
+                    hideCartModal();
+                }
+            });
+
+            // Checkout button - UPDATED WITH DJANGO INTEGRATION
+            checkoutBtn.addEventListener('click', async function() {
+              if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+              }
+              
+              checkoutBtn.textContent = 'Processing...';
+              checkoutBtn.disabled = true;
+              
+              try {
+                const response = await fetch('http://localhost:8000/api/website-orders/', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}' // If using Django templates
+                  },
+                  body: JSON.stringify({
+                    items: cart,
+                    customer_info: {
+                      name: 'Website Customer',
+                      source: 'HTML Website'
+                    }
+                  })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                  cart = [];
+                  updateCartCount();
+                  updateCartDisplay();
+                  hideCartModal();
+                  
+                  alert(`✅ Order #${result.data.orderNumber} placed successfully!\nTotal: ${result.data.total} KSH`);
+                } else {
+                  alert(`❌ Error: ${result.message}`);
+                }
+              } catch (error) {
+                console.error('Order error:', error);
+                alert('❌ Network error. Make sure Django server is running.');
+              } finally {
+                checkoutBtn.textContent = 'Proceed to Checkout';
+                checkoutBtn.disabled = false;
+              }
+            });
+
+            // Modal functionality for videos
             const videoCards = document.querySelectorAll('.video-card');
             const modals = document.querySelectorAll('.modal');
             const modalCloses = document.querySelectorAll('.modal-close');
@@ -1362,7 +1856,7 @@
                     if (e.target === this) {
                         this.style.display = 'none';
                         // Pause video when closing
-                        const video = this.querySelector('video');
+                        const video = this.closest('.modal').querySelector('video');
                         if (video) {
                             video.pause();
                             video.currentTime = 0;
