@@ -7,19 +7,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import './App.css';
 
-function App() {
-  const [cartCount, setCartCount] = useState(0);
-
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
-
-  const handlePlaceOrder = (order) => {
-    // Simple handling: log the order and reset the cart
-    console.log('Order placed:', order);
-    alert(`Order placed for ${order.customerName} (Phone: ${order.customerPhone}).\nType: ${order.orderType}. Items: ${order.itemsCount}`);
-    setCartCount(0);
-  };
+c
 
   return (
     <div className="App">
