@@ -1723,7 +1723,6 @@
    <script>
     // Instasend Configuration - ADD YOUR CREDENTIALS HERE
     const INSTASEND_CONFIG = {
-        merchantId: '254742462975', // Your Instasend merchant ID/username
         publicKey: 'ISPubKey_live_12d1aa54-bc0f-4afb-9a72-5515bbeb86ef', // Your Instasend public key
         // For production, use actual keys from Instasend dashboard
         // For testing, Instasend provides test credentials
@@ -1915,26 +1914,29 @@
 
     // DIRECT REDIRECT — OFFICIAL & WORKING (2025)
     function redirectToInstasendDirect(data) {
-        const params = new URLSearchParams();
+    const params = new URLSearchParams();
 
-        params.append('merchant', INSTASEND_CONFIG.merchantId);     // 254742462975
-        params.append('amount', data.amount);
-        params.append('currency', data.currency);
-        params.append('order_id', data.order_id);
-        params.append('redirect_url', data.redirect_url);
-        params.append('cancel_url', data.cancel_url);
-        params.append('items', JSON.stringify(data.items));
+    params.append('public_key', INSTASEND_CONFIG.publicKey);     // ← VERY IMPORTANT
+    params.append('amount', data.amount);
+    params.append('currency', data.currency);
+    params.append('order_id', data.order_id);
+    params.append('redirect_url', data.redirect_url);
+    params.append('cancel_url', data.cancel_url);
+    params.append('customer_email', document.getElementById('customer-email').value || '');
+    params.append('customer_phone', document.getElementById('customer-phone').value || '');
+    params.append('customer_name', document.getElementById('customer-name').value || '');
+    params.append('title', 'Sharubati – Fresh Juices & Goods');
+    params.append('description', 'Thank you for your order!');
 
-        // Optional but recommended
-        params.append('title', 'Sharubati Fresh Juices');           // shows your brand name
-        // params.append('callback_url', 'https://yourdomain.com/webhook.php'); // for auto-updates
+    // Send items as JSON string (new API expects it)
+    params.append('items', JSON.stringify(data.items));
 
-        const instasendUrl = `https://payment.intasend.com/checkout?${params.toString()}`;
+    // NEW WORKING URL (December 2025)
+    const instasendUrl = `https://payment.intasend.com/pay?${params.toString()}`;
 
-        console.log('Taking you to IntaSend →', instasendUrl);
-        window.location.href = instasendUrl;
-    }
-
+    console.log('Redirecting to IntaSend →', instasendUrl);
+    window.location.href = instasendUrl;
+}
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
         // Add to Cart buttons
@@ -2056,6 +2058,9 @@
 </script>
 </body>
 </html>
+ 
+
+
  
 
 
