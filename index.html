@@ -1191,6 +1191,7 @@
                 <div class="indicator" data-slide="3"></div>
                 <div class="indicator" data-slide="4"></div>
                 <div class="indicator" data-slide="5"></div>
+                <div class="indicator" data-slide="6"></div>
             </div>
     </section>
 
@@ -1681,29 +1682,7 @@
         </p>
     </div>
 </div>
-    <div id="video1-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2 class="modal-title">Behind the Scenes: Juice Making</h2>
-            <video controls autoplay style="width: 100%; max-height: 400px;">
-                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4  " type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <p class="modal-text">Watch our artisans craft the perfect blend. Our sustainable sourcing practices ensure the freshest ingredients while supporting local communities. Learn more about our commitment to quality and environmental responsibility.</p>
-        </div>
-    </div>
-
-    <div id="video2-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2 class="modal-title">Community Stories</h2>
-            <video controls autoplay style="width: 100%; max-height: 400px;">
-                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4  " type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <p class="modal-text">Meet the farmers and families behind our ingredients. Their dedication to traditional farming methods and passion for quality produce make Sharubati possible. Discover their inspiring journeys and how we're building a better future together.</p>
-        </div>
-    </div>
+    
 
     <!-- Cart Modal -->
     <div class="cart-modal" id="cart-modal">
@@ -1719,346 +1698,189 @@
             <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
         </div>
     </div>
+<script src="https://unpkg.com/intasend-inlinejs-sdk@4.0.5/build/intasend-inline.js"></script>
 
-   <script>
-    // Instasend Configuration - ADD YOUR CREDENTIALS HERE
-    const INSTASEND_CONFIG = {
-        publicKey: 'ISPubKey_live_12d1aa54-bc0f-4afb-9a72-5515bbeb86ef', // Your Instasend public key
-        // For production, use actual keys from Instasend dashboard
-        // For testing, Instasend provides test credentials
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function whenIntaSendReady(callback) {
+    if (window.IntaSendPay) {
+      callback();
+    } else {
+      setTimeout(() => whenIntaSendReady(callback), 100);
+    }
+  }
+
+  // Slideshow, Cart, etc. – your existing code stays the same
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.indicator');
+  let current = 0;
+
+  if (slides.length > 0) {
+    const show = (n) => {
+      const i = ((n % slides.length) + slides.length) % slides.length;
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[i].classList.add('active');
+      dots[i].classList.add('active');
+      current = i;
     };
 
-    // Slideshow functionality
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    const indicators = document.querySelectorAll('.indicator');
+    document.getElementById('left-arrow')?.addEventListener('click', () => show(current - 1));
+    document.getElementById('right-arrow')?.addEventListener('click', () => show(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
 
-    function showSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(indicator => indicator.classList.remove('active'));
+    setInterval(() => show(current + 1), 5000);
+    show(0);
+  }
 
-        slides[index].classList.add('active');
-        indicators[index].classList.add('active');
-        currentSlide = index;
+  // Cart System
+  let cart = [];
+  const cartIcon = document.querySelector('.cart-icon');
+  const cartCount = document.querySelector('.cart-count');
+  const cartModal = document.getElementById('cart-modal');
+  const closeModal = document.getElementById('cart-modal-close');
+  const cartList = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+  const checkoutBtn = document.getElementById('checkout-btn');
+
+  const refreshCart = () => {
+    const totalItems = cart.reduce((a, b) => a + b.quantity, 0);
+    cartCount.textContent = totalItems;
+
+    cartList.innerHTML = '';
+    const totalPrice = cart.reduce((a, b) => a + b.price * b.quantity, 0);
+
+    if (cart.length === 0) {
+      cartList.innerHTML = '<p style="text-align:center;color:#888">Your cart is empty</p>';
+      cartTotal.innerHTML = '<strong>Total: 0 KSH</strong>';
+      checkoutBtn.disabled = true;
+      return;
     }
 
-    function changeSlide(direction) {
-        currentSlide += direction;
-        if (currentSlide < 0) currentSlide = slides.length - 1;
-        if (currentSlide >= slides.length) currentSlide = 0;
-        showSlide(currentSlide);
-    }
-
-    function goToSlide(index) {
-        showSlide(index);
-    }
-
-    // Slideshow event listeners
-    document.getElementById('left-arrow').addEventListener('click', (e) => {
-        e.preventDefault();
-        changeSlide(-1);
+    cart.forEach((item, i) => {
+      cartList.innerHTML += `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">${item.price} KSH each</div>
+          </div>
+          <div class="cart-item-controls">
+            <button class="quantity-btn" onclick="cartChange(${i},-1)">−</button>
+            <span>${item.quantity}</span>
+            <button class="quantity-btn" onclick="cartChange(${i},1)">+</button>
+            <button class="remove-btn" onclick="cartChange(${i},0)">Remove</button>
+          </div>
+        </div>`;
     });
-    document.getElementById('right-arrow').addEventListener('click', (e) => {
-        e.preventDefault();
-        changeSlide(1);
+
+    cartTotal.innerHTML = `<strong>Total: ${totalPrice} KSH</strong>`;
+    checkoutBtn.disabled = false;
+    checkoutBtn.innerHTML = `Proceed to Checkout (${totalPrice} KSH)`;
+  };
+
+  window.cartChange = (index, change) => {
+    if (change === 0) {
+      cart.splice(index, 1);
+    } else {
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
+    }
+    refreshCart();
+  };
+
+  window.addToCart = (name, priceText) => {
+    const price = parseInt(priceText.replace(' KSH', ''));
+    const existing = cart.find(i => i.name === name);
+    if (existing) existing.quantity++;
+    else cart.push({ name, price, quantity: 1 });
+    refreshCart();
+  };
+
+  cartIcon.addEventListener('click', () => {
+    cartModal.style.display = 'flex';
+    refreshCart();
+  });
+  closeModal.addEventListener('click', () => cartModal.style.display = 'none');
+  cartModal.addEventListener('click', e => { if (e.target === cartModal) cartModal.style.display = 'none'; });
+
+  // IntaSend Checkout
+  checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) return alert('Your cart is empty');
+
+    const name = document.getElementById('customer-name').value.trim();
+    const phone = document.getElementById('customer-phone').value.trim();
+
+    if (!name || !phone) return alert('Name and phone number are required');
+
+    const total = cart.reduce((a, b) => a + b.price * b.quantity, 0);
+
+    checkoutBtn.textContent = 'Opening payment...';
+    checkoutBtn.disabled = true;
+
+    whenIntaSendReady(() => {
+      new IntaSendPay({
+        publicAPIKey: 'ISPubKey_live_12d1aa54-bc0f-4afb-9a72-5515bbeb86ef',
+        amount: total,
+        currency: 'KES',
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ').slice(1).join(' ') || 'Customer',
+        phoneNumber: phone,
+        title: 'Sharubati Juices & Goods',
+        live: true
+      }).open();
     });
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', (e) => {
-            e.preventDefault();
-            goToSlide(index);
-        });
+
+    setTimeout(() => {
+      checkoutBtn.textContent = 'Proceed to Checkout';
+      checkoutBtn.disabled = false;
+    }, 10000);
+  });
+
+  // Add to Cart Buttons
+  document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const card = this.closest('.product-card');
+      const name = card.querySelector('.product-name').textContent;
+      const price = card.querySelector('.product-price').textContent;
+      addToCart(name, price);
+
+      this.textContent = 'Added!';
+      this.style.backgroundColor = '#000';
+      this.style.color = '#fff';
+      setTimeout(() => {
+        this.textContent = 'Add to Cart';
+        this.style.backgroundColor = '';
+        this.style.color = '';
+      }, 1500);
     });
+  });
 
-    // Auto-play slideshow
-    setInterval(() => {
-        changeSlide(1);
-    }, 5000);
-
-    // Cart functionality
-    let cart = [];
-    const cartCount = document.querySelector('.cart-count');
-    const cartIcon = document.querySelector('.cart-icon');
-    const cartModal = document.getElementById('cart-modal');
-    const cartModalClose = document.getElementById('cart-modal-close');
-    const cartItemsContainer = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
-    const checkoutBtn = document.getElementById('checkout-btn');
-
-    // Function to update cart count
-    function updateCartCount() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = totalItems;
-    }
-
-    // Function to update cart display
-    function updateCartDisplay() {
-        cartItemsContainer.innerHTML = '';
-        let total = 0;
-
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p style="text-align: center; color: var(--gray-3);">Your cart is empty</p>';
-            cartTotal.innerHTML = '<strong>Total: 0 KSH</strong>';
-            checkoutBtn.disabled = true;
-            return;
-        }
-
-        cart.forEach((item, index) => {
-            const itemTotal = item.price * item.quantity;
-            total += itemTotal;
-
-            const cartItem = document.createElement('div');
-            cartItem.className = 'cart-item';
-            cartItem.innerHTML = `
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">${item.price} KSH each</div>
-                </div>
-                <div class="cart-item-controls">
-                    <button class="quantity-btn" onclick="changeQuantity(${index}, -1)">-</button>
-                    <span style="margin: 0 10px;">${item.quantity}</span>
-                    <button class="quantity-btn" onclick="changeQuantity(${index}, 1)">+</button>
-                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-                </div>
-            `;
-            cartItemsContainer.appendChild(cartItem);
-        });
-
-        cartTotal.innerHTML = `<strong>Total: ${total} KSH</strong>`;
-        checkoutBtn.disabled = false;
-        
-        // Update checkout button with total
-        checkoutBtn.innerHTML = `Proceed to Checkout (${total} KSH)`;
-    }
-
-    // Function to add item to cart
-    function addToCart(name, price, category) {
-        const existingItem = cart.find(item => item.name === name);
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({
-                name: name,
-                price: parseInt(price.replace(' KSH', '')),
-                category: category,
-                quantity: 1
-            });
-        }
-        updateCartCount();
-        updateCartDisplay();
-    }
-
-    // Function to change quantity
-    function changeQuantity(index, change) {
-        cart[index].quantity += change;
-        if (cart[index].quantity <= 0) {
-            cart.splice(index, 1);
-        }
-        updateCartCount();
-        updateCartDisplay();
-    }
-
-    // Function to remove item
-    function removeItem(index) {
-        cart.splice(index, 1);
-        updateCartCount();
-        updateCartDisplay();
-    }
-
-    // Function to show cart modal
-    function showCartModal() {
-        cartModal.style.display = 'flex';
-        updateCartDisplay();
-    }
-
-    // Function to hide cart modal
-    function hideCartModal() {
-        cartModal.style.display = 'none';
-    }
-
-    // INSTASEND CHECKOUT FUNCTION — FINAL WORKING VERSION
-    async function processInstasendCheckout() {
-        if (cart.length === 0) {
-            alert('Your cart is empty!');
-            return;
-        }
-
-        checkoutBtn.textContent = 'Redirecting to Payment...';
-        checkoutBtn.disabled = true;
-
-        try {
-            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const orderId = 'SHARUBATI-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-
-            const checkoutData = {
-                amount: totalAmount,
-                currency: 'KES',
-                order_id: orderId,
-                redirect_url: window.location.origin + '/thank-you.html', // make sure this page exists
-                cancel_url: window.location.href,
-                items: cart.map(item => ({
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.quantity
-                }))
-            };
-
-            redirectToInstasendDirect(checkoutData);
-
-        } catch (error) {
-            console.error('Checkout error:', error);
-            alert('Something went wrong. Please try again.');
-            checkoutBtn.textContent = 'Proceed to Checkout';
-            checkoutBtn.disabled = false;
-        }
-    }
-
-    // DIRECT REDIRECT — OFFICIAL & WORKING (2025)
-    function redirectToInstasendDirect(data) {
-    const params = new URLSearchParams();
-
-    params.append('public_key', INSTASEND_CONFIG.publicKey);     // ← VERY IMPORTANT
-    params.append('amount', data.amount);
-    params.append('currency', data.currency);
-    params.append('order_id', data.order_id);
-    params.append('redirect_url', data.redirect_url);
-    params.append('cancel_url', data.cancel_url);
-    params.append('customer_email', document.getElementById('customer-email').value || '');
-    params.append('customer_phone', document.getElementById('customer-phone').value || '');
-    params.append('customer_name', document.getElementById('customer-name').value || '');
-    params.append('title', 'Sharubati – Fresh Juices & Goods');
-    params.append('description', 'Thank you for your order!');
-
-    // Send items as JSON string (new API expects it)
-    params.append('items', JSON.stringify(data.items));
-
-    // NEW WORKING URL (December 2025)
-    const instasendUrl = `https://payment.intasend.com/pay?${params.toString()}`;
-
-    console.log('Redirecting to IntaSend →', instasendUrl);
-    window.location.href = instasendUrl;
-}
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add to Cart buttons
-        const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const productCard = this.closest('.product-card');
-                const name = productCard.querySelector('.product-name').textContent;
-                const price = productCard.querySelector('.product-price').textContent;
-                const category = productCard.querySelector('.product-category').textContent;
-
-                addToCart(name, price, category);
-
-                // Add animation to cart icon
-                cartIcon.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cartIcon.style.transform = 'scale(1)';
-                }, 300);
-
-                // Button feedback
-                const originalText = this.textContent;
-                this.textContent = 'Added!';
-                this.style.backgroundColor = 'var(--black)';
-                this.style.color = 'var(--white)';
-
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.style.backgroundColor = '';
-                    this.style.color = '';
-                }, 1500);
-            });
-        });
-
-        // Cart icon click to open modal
-        cartIcon.addEventListener('click', showCartModal);
-
-        // Close cart modal
-        cartModalClose.addEventListener('click', hideCartModal);
-
-        // Close modal when clicking outside
-        cartModal.addEventListener('click', function(e) {
-            if (e.target === cartModal) {
-                hideCartModal();
-            }
-        });
-
-        // Checkout button with Instasend integration
-        checkoutBtn.addEventListener('click', processInstasendCheckout);
-
-        // WhatsApp buttons
-        document.querySelectorAll('.order-whatsapp').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                const productCard = btn.closest('.product-card');
-                const name = productCard.querySelector('.product-name').textContent;
-                const price = productCard.querySelector('.product-price').textContent;
-                
-                // Format message properly
-                const message = `Hello SHARUBATI! 🧃%0A%0AI'd like to order:%0A• ${name} - ${price}%0A%0APlease let me know about availability and delivery options.%0A%0AThank you!`;
-                
-                // WhatsApp URLs
-                const whatsappAppURL = `whatsapp://send?phone=254742462975&text=${message}`;
-                const whatsappWebURL = `https://api.whatsapp.com/send?phone=254742629758&text=${message}`;
-                
-                // Try to open in app
-                window.location.href = whatsappAppURL;
-                
-                // Fallback to web version
-                setTimeout(() => {
-                    if (!document.hidden) {
-                        window.open(whatsappWebURL, '_blank');
-                    }
-                }, 2000);
-            });
-        });
-
-        // Modal functionality for videos
-        const videoCards = document.querySelectorAll('.video-card');
-        const modals = document.querySelectorAll('.modal');
-        const modalCloses = document.querySelectorAll('.modal-close');
-
-        videoCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const modalId = this.getAttribute('data-modal') + '-modal';
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.style.display = 'flex';
-                }
-            });
-        });
-
-        modalCloses.forEach(close => {
-            close.addEventListener('click', function() {
-                this.closest('.modal').style.display = 'none';
-                const video = this.closest('.modal').querySelector('video');
-                if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            });
-        });
-
-        // Close modal when clicking outside
-        modals.forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.style.display = 'none';
-                    const video = this.querySelector('video');
-                    if (video) {
-                        video.pause();
-                        video.currentTime = 0;
-                    }
-                }
-            });
-        });
+  // WhatsApp Buttons
+  document.querySelectorAll('.order-whatsapp').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const card = btn.closest('.product-card');
+      const name = card.querySelector('.product-name').textContent;
+      const price = card.querySelector('.product-price').textContent;
+      const text = `Hello SHARUBATI! I want to order:\n• ${name} - ${price}\nThank you!`;
+      window.open(`https://api.whatsapp.com/send?phone=254742462975&text=${encodeURIComponent(text)}`, '_blank');
     });
+  });
+
+  // Close Modals
+  document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', e => {
+      if (e.target === m || e.target.classList.contains('modal-close')) {
+        m.style.display = 'none';
+        const vid = m.querySelector('video');
+        if (vid) vid.pause();
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
- 
 
 
  
