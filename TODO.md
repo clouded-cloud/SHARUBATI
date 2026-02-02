@@ -1,10 +1,5 @@
-- [x] Create tailored prompts for 6 images based on slide themes
-- [x] Generate image 1 for "Arabic Roots, Kenyan Soul" using browser_action (placeholder used)
-- [x] Generate image 2 for "Behind the Scenes: Juice Making" using browser_action (placeholder used)
-- [x] Generate image 3 for "Flavor That Hits Hard" using browser_action (placeholder used)
-- [x] Generate image 4 for "Community Stories" using browser_action (placeholder used)
-- [x] Generate image 5 for "Handcrafted with Love" using browser_action (placeholder used)
-- [x] Generate image 6 for "Building Connections" using browser_action (placeholder used)
-- [x] Edit index.html to replace background-image URLs in slideshow slides
-- [x] Edit index.html to replace src attributes in story-grid images
-- [x] Test the site locally to verify images load and responsive design
+- [x] Create Flask backend (backend.py) to handle payment initiation using IntaSend Python SDK
+- [x] Install required dependencies (Flask, intasend)
+- [x] Modify index.html to send payment data to backend instead of using frontend SDK directly
+- [x] Update Thankyou.html redirect URL to point to backend success handling
+- [x] Test the full payment flow
